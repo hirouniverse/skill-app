@@ -1,3 +1,12 @@
+const environment = process.env.APP_ENV || 'local'
+const envSet = require(`./env/.env.${environment}.js`)
+
+console.log(
+  'launch nuxt application:\n',
+  `--- node_env: ${process.env.NODE_ENV}\n`,
+  `--- app_env: ${environment}\n`
+)
+
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
@@ -36,6 +45,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
+
+  env: envSet,
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
