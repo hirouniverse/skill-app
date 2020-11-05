@@ -4,6 +4,27 @@
   </div>
 </template>
 
+<script lang="ts">
+import Vue from 'vue'
+import { auth } from '@/lib/firebase/client'
+export default Vue.extend({
+  created() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log('sign in...')
+        const { displayName, email, photoURL, uid, emailVerified } = user
+        console.log(displayName, email, photoURL, uid, emailVerified)
+        if (!user.emailVerified) {
+          this.$router.push('verification')
+        }
+      } else {
+        console.log('sign out...')
+      }
+    })
+  },
+})
+</script>
+
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',

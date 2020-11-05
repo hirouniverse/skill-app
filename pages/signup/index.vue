@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
-    <!-- <OAuthSignInButton></OAuthSignInButton> -->
-    <form @submit.prevent="signIn">
+  <div>
+    <form @submit.prevent="signUp">
       <input v-model="email" type="text" placeholder="email" name="email" />
       <input
         v-model="password"
@@ -9,9 +8,9 @@
         placeholder="password"
         name="password"
       />
-      <button type="submit">signin</button>
+      <button type="submit">signup</button>
     </form>
-    <div v-show="noUser">{{ message }}</div>
+    <div v-if="show">{{ message }}</div>
   </div>
 </template>
 
@@ -23,27 +22,23 @@ export default Vue.extend({
     return {
       email: '' as string,
       password: '' as string,
-      noUser: false as boolean,
+      show: false as boolean,
       message: '' as string,
     }
   },
   methods: {
-    signIn() {
-      console.log('signin')
+    signUp() {
       auth
-        .signInWithEmailAndPassword(this.email, this.password)
+        .createUserWithEmailAndPassword(this.email, this.password)
         .then((data) => {
           console.log(data)
-          this.email = ''
-          this.password = ''
         })
         .catch((err) => {
-          console.log(`error_code: ${err.code}`, `error_msg: ${err.message}`)
           this.message = `${err.code} : ${err.message}`
-          this.noUser = true
-          const that = this
-          setTimeout(function () {
-            that.noUser = false
+          this.show = true
+
+          setTimeout(() => {
+            this.show = false
           }, 3000)
         })
     },

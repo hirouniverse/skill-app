@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div>Welcome</div>
+    <div>Please verify email address</div>
+
     <button @click="signOut">signout</button>
   </div>
 </template>
